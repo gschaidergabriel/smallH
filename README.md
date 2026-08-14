@@ -94,3 +94,42 @@ Das ist der Unterschied zwischen Lernen und Drift.
 Entität mit anhaltenden Zustandsübergängen. Sie begründen **kein** Bewusstsein,
 keine Empfindung und keinen moralischen Status. Diese Grenze steht schon im
 Puls-Vertrag und wird hier nicht aufgeweicht.
+
+<!-- STAND:ANFANG — erzeugt, nicht von Hand pflegen -->
+
+## Stand
+
+Erzeugt: **2026-08-14 21:04 UTC** · Wirt: `clayverse`
+
+### Prägestelle
+
+```
+Kennungen   3
+Linien      2
+Ereignisse  3
+  COPY                     1
+  ORIGIN                   2
+```
+
+Zuletzt geprägt:
+
+* `clay_01M0115GCHWJF5D751MBK86KJ9` — COPY, 2026-08-14T20:59:38
+* `clay_01M0115GCD8FHAPSGNCFSAZG5E` — ORIGIN, 2026-08-14T20:59:38
+* `clay_01M011505MVTY0SX8ZEKXSEEN7` — ORIGIN, 2026-08-14T20:59:22
+
+### Puls
+
+Noch kein Takt gelaufen. Die Prägestelle steht, das Herz nicht.
+
+### Bestand
+
+```
+Python-Dateien   2
+Zeilen           394
+Commits          1
+Zuletzt          8a84289 2026-08-14 microclay: kybernetische Mikroentitaet — Identitaet
+```
+
+⚠️ Dieser Abschnitt wird bei jedem Lauf neu erzeugt. Was hier steht, ist gezählt — nicht behauptet. Fehlt eine Zahl, fehlt die Quelle, und das steht dann auch da.
+
+<!-- STAND:ENDE -->
