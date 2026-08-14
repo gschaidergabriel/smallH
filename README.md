@@ -99,35 +99,40 @@ Puls-Vertrag und wird hier nicht aufgeweicht.
 
 ## Stand
 
-Erzeugt: **2026-08-14 21:04 UTC** · Wirt: `clayverse`
+Erzeugt: **2026-08-14 22:59 UTC** · Wirt: `clayverse`
 
 ### Prägestelle
 
 ```
-Kennungen   3
-Linien      2
-Ereignisse  3
+Kennungen   4
+Linien      3
+Ereignisse  4
   COPY                     1
-  ORIGIN                   2
+  ORIGIN                   3
 ```
 
 Zuletzt geprägt:
 
+* `clay_01M017MSKPCJGQW0QF74QJQGH3` — ORIGIN, 2026-08-14T22:52:51
 * `clay_01M0115GCHWJF5D751MBK86KJ9` — COPY, 2026-08-14T20:59:38
 * `clay_01M0115GCD8FHAPSGNCFSAZG5E` — ORIGIN, 2026-08-14T20:59:38
-* `clay_01M011505MVTY0SX8ZEKXSEEN7` — ORIGIN, 2026-08-14T20:59:22
 
 ### Puls
 
-Noch kein Takt gelaufen. Die Prägestelle steht, das Herz nicht.
+```
+Takte gesamt          53
+davon mit Modellaufruf0
+verarbeitete Änderungen0
+Letzter Takt          2026-08-14T22:58:33
+```
 
 ### Bestand
 
 ```
 Python-Dateien   2
-Zeilen           394
-Commits          1
-Zuletzt          8a84289 2026-08-14 microclay: kybernetische Mikroentitaet — Identitaet
+Zeilen           412
+Commits          2
+Zuletzt          ac1d660 2026-08-14 liesmich.py: die README schreibt sich aus dem echte
 ```
 
 ⚠️ Dieser Abschnitt wird bei jedem Lauf neu erzeugt. Was hier steht, ist gezählt — nicht behauptet. Fehlt eine Zahl, fehlt die Quelle, und das steht dann auch da.

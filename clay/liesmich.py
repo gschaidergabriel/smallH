@@ -76,24 +76,42 @@ def stand() -> str:
         z.append("")
 
     # --- Puls: was der Zyklus tatsächlich getan hat ---
+    # Der Puls gehoert der INSTANZ, nicht der Maschine. microclay praegt
+    # Identitaeten; wer damit schlaegt, fuehrt sein eigenes Buch. Deshalb
+    # wird beides gesucht: der eigene Ort und der dieser Instanz.
     puls_db = os.environ.get("MICROCLAY_PULS", "/var/lib/microclay/puls.db")
+    if not os.path.exists(puls_db) and os.path.exists("/var/lib/clay/wiki.db"):
+        puls_db = "/var/lib/clay/wiki.db"
+
     if os.path.exists(puls_db):
         con = sqlite3.connect(puls_db)
         n = _zahl(con, "puls")
+        tab = "puls"
+        if n is None:
+            n = _zahl(con, "pu_takt")
+            tab = "pu_takt"
+            # ⚠️ pu_takt schreibt bewusst nur, was etwas sagt — der wahre
+            # Taktzaehler steht in pu_lage. Die Zeilenzahl waere zu niedrig.
+            try:
+                r = con.execute("SELECT wert FROM pu_lage WHERE schluessel='takte_gesamt'").fetchone()
+                if r:
+                    n = int(r[0])
+            except sqlite3.Error:
+                pass
         if n is not None:
             z.append("### Puls")
             z.append("")
             z.append("```")
             z.append(f"Takte gesamt          {n}")
             for feld, name in (("modellaufrufe", "davon mit Modellaufruf"),
-                               ("deltas", "verarbeitete Änderungen")):
+                               ("delta", "verarbeitete Änderungen")):
                 try:
-                    w = con.execute(f"SELECT sum({feld}) FROM puls").fetchone()[0]
+                    w = con.execute(f"SELECT sum({feld}) FROM {tab}").fetchone()[0]
                     z.append(f"{name:<22}{w if w is not None else 0}")
                 except sqlite3.Error:
                     pass
             try:
-                letzt = con.execute("SELECT max(zeit) FROM puls").fetchone()[0]
+                letzt = con.execute(f"SELECT max(zeit) FROM {tab}").fetchone()[0]
                 z.append(f"Letzter Takt          {str(letzt)[:19]}")
             except sqlite3.Error:
                 pass
