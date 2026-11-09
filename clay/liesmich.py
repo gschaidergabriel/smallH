@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-"""liesmich.py — die README schreibt sich selbst fort.
+"""liesmich.py — update the README's local status section.
 
-Der Puls-Vertrag verlangt, dass eine Entität dauernd eine BELEGTE Antwort auf
-"Wer bin ich? Wann bin ich? In welchem Zustand?" hält. Eine README, die von
-Hand gepflegt wird, ist genau das Gegenteil: sie war einmal richtig.
-
-Deshalb steht der handgeschriebene Teil oben und bleibt unangetastet, und
-alles zwischen den Marken wird bei jedem Lauf aus dem echten Zustand neu
-erzeugt. Kein Modellaufruf, keine Deutung — nur Zählen und Datieren.
+The manually written documentation remains unchanged. This script replaces
+only the marked status block with measurements from local databases and Git.
+The report is not a measure of project-wide functionality or performance.
 """
 import json
 import os
@@ -19,8 +15,8 @@ from datetime import datetime, timezone
 
 WURZEL = os.environ.get("MICROCLAY_WURZEL", "/opt/microclay")
 README = os.path.join(WURZEL, "README.md")
-ANFANG = "<!-- STAND:ANFANG — erzeugt, nicht von Hand pflegen -->"
-ENDE = "<!-- STAND:ENDE -->"
+ANFANG = "<!-- STATUS:START -->"
+ENDE = "<!-- STATUS:END -->"
 
 sys.path.insert(0, os.path.join(WURZEL, "clay"))
 
@@ -41,22 +37,22 @@ def _git(*args):
 
 
 def stand() -> str:
-    z = [ANFANG, "", "## Stand", ""]
+    z = [ANFANG, "", "## Local status (generated)", ""]
     jetzt = datetime.now(timezone.utc)
-    z.append(f"Erzeugt: **{jetzt.strftime('%Y-%m-%d %H:%M UTC')}** · "
-             f"Wirt: `{os.uname().nodename}`")
+    z.append(f"Generated: **{jetzt.strftime('%Y-%m-%d %H:%M UTC')}** · "
+             f"Host: `{os.uname().nodename}`")
     z.append("")
 
     # --- Identität: das Register ist die Wahrheit über die Entitäten ---
     try:
         import identitaet as I
         s = I.register_stand()
-        z.append("### Prägestelle")
+        z.append("### Identity registry")
         z.append("")
         z.append("```")
-        z.append(f"Kennungen   {s['kennungen']}")
-        z.append(f"Linien      {s['linien']}")
-        z.append(f"Ereignisse  {s['ereignisse']}")
+        z.append(f"Identities  {s['kennungen']}")
+        z.append(f"Lineages    {s['linien']}")
+        z.append(f"Events      {s['ereignisse']}")
         for art, n in sorted(s["je_geburtsart"].items()):
             z.append(f"  {art:<24} {n}")
         z.append("```")
@@ -66,13 +62,13 @@ def stand() -> str:
                           "ORDER BY geburt_zeit DESC LIMIT 3").fetchall()
         con.close()
         if neu:
-            z.append("Zuletzt geprägt:")
+            z.append("Most recently registered:")
             z.append("")
             for k, a, t in neu:
                 z.append(f"* `{k}` — {a}, {t[:19]}")
             z.append("")
     except Exception as e:
-        z.append(f"⚠️ Register nicht lesbar: {e}")
+        z.append(f"Registry unavailable: {e}")
         z.append("")
 
     # --- Puls: was der Zyklus tatsächlich getan hat ---
@@ -99,12 +95,12 @@ def stand() -> str:
             except sqlite3.Error:
                 pass
         if n is not None:
-            z.append("### Puls")
+            z.append("### Pulse records")
             z.append("")
             z.append("```")
-            z.append(f"Takte gesamt          {n}")
-            for feld, name in (("modellaufrufe", "davon mit Modellaufruf"),
-                               ("delta", "verarbeitete Änderungen")):
+            z.append(f"Total ticks           {n}")
+            for feld, name in (("modellaufrufe", "Model calls"),
+                               ("delta", "Changes processed")):
                 try:
                     w = con.execute(f"SELECT sum({feld}) FROM {tab}").fetchone()[0]
                     z.append(f"{name:<22}{w if w is not None else 0}")
@@ -112,20 +108,20 @@ def stand() -> str:
                     pass
             try:
                 letzt = con.execute(f"SELECT max(zeit) FROM {tab}").fetchone()[0]
-                z.append(f"Letzter Takt          {str(letzt)[:19]}")
+                z.append(f"Last tick             {str(letzt)[:19]}")
             except sqlite3.Error:
                 pass
             z.append("```")
             z.append("")
         con.close()
     else:
-        z.append("### Puls")
+        z.append("### Pulse records")
         z.append("")
-        z.append("Noch kein Takt gelaufen. Die Prägestelle steht, das Herz nicht.")
+        z.append("No accessible pulse database. This repository does not include a pulse engine.")
         z.append("")
 
     # --- Der Bau selbst ---
-    z.append("### Bestand")
+    z.append("### Repository checkout")
     z.append("")
     z.append("```")
     dateien = 0
@@ -141,19 +137,18 @@ def stand() -> str:
                         zeilen += sum(1 for _ in fh)
                 except OSError:
                     pass
-    z.append(f"Python-Dateien   {dateien}")
-    z.append(f"Zeilen           {zeilen}")
+    z.append(f"Python files   {dateien}")
+    z.append(f"Lines          {zeilen}")
     commits = _git("rev-list", "--count", "HEAD")
     if commits:
-        z.append(f"Commits          {commits}")
+        z.append(f"Commits        {commits}")
     kopf = _git("log", "-1", "--format=%h %cs %s")
     if kopf:
-        z.append(f"Zuletzt          {kopf[:70]}")
+        z.append(f"Latest commit  {kopf[:70]}")
     z.append("```")
     z.append("")
-    z.append("⚠️ Dieser Abschnitt wird bei jedem Lauf neu erzeugt. Was hier steht, "
-             "ist gezählt — nicht behauptet. Fehlt eine Zahl, fehlt die Quelle, "
-             "und das steht dann auch da.")
+    z.append("These figures come from the current host and configured databases. "
+             "Unavailable values are omitted; the report does not verify runtime features.")
     z.append("")
     z.append(ENDE)
     return "\n".join(z)
@@ -170,10 +165,10 @@ def schreiben(pfad: str = README) -> str:
     else:
         neu = alt.rstrip() + "\n\n---\n\n" + neu_block + "\n"
     if neu == alt:
-        return "unveraendert"
+        return "unchanged"
     with open(pfad, "w", encoding="utf-8") as f:
         f.write(neu)
-    return "geschrieben"
+    return "written"
 
 
 if __name__ == "__main__":
@@ -183,5 +178,5 @@ if __name__ == "__main__":
     elif b == "schreiben":
         print(schreiben())
     else:
-        print(f"unbekannt: {b}", file=sys.stderr)
+        print(f"unknown command: {b}", file=sys.stderr)
         sys.exit(1)

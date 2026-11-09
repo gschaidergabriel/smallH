@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1010" viewBox="0 0 1600 1010" role="img" aria-labelledby="title desc">
+  <title id="title">smallH architecture cross-section</title>
+  <desc id="desc">Top: implemented identity registration and validation using a local SQLite registry. Bottom: a proposed, unimplemented pulse loop from time and context through graph activation, evidence screening, selection, and state snapshots. Optional model calls are not required for every tick.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/></marker>
+    <style>
+      .main{font-family:Inter,Arial,sans-serif;fill:#122236}
+      .small{font:500 18px Inter,Arial,sans-serif;fill:#526275}
+      .label{font:700 17px Inter,Arial,sans-serif;letter-spacing:1.2px}
+      .boxhead{font:700 24px Inter,Arial,sans-serif;fill:#122236}
+      .body{font:400 18px Inter,Arial,sans-serif;fill:#44566b}
+      .mono{font:600 17px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#226c70}
+      .flow{stroke:#64748b;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="1010" fill="#ffffff"/>
+  <rect x="0" y="0" width="1600" height="11" fill="#215d6b"/>
+  <text x="68" y="79" class="main" font-size="48" font-weight="750">smallH</text>
+  <text x="69" y="120" class="small">Identity service and proposed stateful pulse architecture</text>
+  <text x="1530" y="79" text-anchor="end" class="label" fill="#526275">SYSTEM CROSS-SECTION</text>
+  <rect x="68" y="154" width="1464" height="67" rx="13" fill="#f1f5f9" stroke="#d9e1e9"/>
+  <text x="96" y="194" class="boxhead" font-size="22">Host process / application</text>
+  <text x="1505" y="193" text-anchor="end" class="small">Calls Python functions or the command-line interface</text>
+  <path d="M800 221 V246" class="flow"/>
+
+  <rect x="68" y="247" width="1464" height="277" rx="19" fill="#f0f9f7" stroke="#8cc8bd" stroke-width="2"/>
+  <rect x="89" y="266" width="195" height="34" rx="17" fill="#246b61"/>
+  <text x="186" y="289" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#fff">IMPLEMENTED</text>
+  <text x="309" y="289" class="small">Identity boundary · clay/identitaet.py</text>
+  <g>
+    <rect x="95" y="325" width="277" height="123" rx="12" fill="#fff" stroke="#a9d9d0"/>
+    <text x="119" y="361" class="boxhead">1 · Mint an ID</text>
+    <text x="119" y="391" class="mono">praegen()</text>
+    <text x="119" y="421" class="body">Origin, copy or fork</text>
+    <rect x="464" y="325" width="277" height="123" rx="12" fill="#fff" stroke="#a9d9d0"/>
+    <text x="488" y="361" class="boxhead">2 · Write receipt</text>
+    <text x="488" y="391" class="body">Identity, parent, root,</text>
+    <text x="488" y="416" class="body">time, optional file hash</text>
+    <rect x="833" y="325" width="277" height="123" rx="12" fill="#fff" stroke="#a9d9d0"/>
+    <text x="857" y="361" class="boxhead">3 · Store records</text>
+    <text x="857" y="391" class="mono">SQLite</text>
+    <text x="857" y="421" class="body">register + ereignis</text>
+    <rect x="1202" y="325" width="277" height="123" rx="12" fill="#fff" stroke="#a9d9d0"/>
+    <text x="1226" y="361" class="boxhead">4 · Check identity</text>
+    <text x="1226" y="391" class="mono">darf_pulsen()</text>
+    <text x="1226" y="421" class="body">Allow or raise an error</text>
+    <path d="M372 386 H456" class="flow"/>
+    <path d="M741 386 H825" class="flow"/>
+    <path d="M1110 386 H1194" class="flow"/>
+  </g>
+  <text x="102" y="488" class="small">Read-back: zeigen() and register_stand() · This module checks eligibility; it does not execute a pulse.</text>
+
+  <path d="M800 524 V554" class="flow" stroke-dasharray="7 7"/>
+  <rect x="68" y="555" width="1464" height="371" rx="19" fill="#fafbfc" stroke="#9aa9ba" stroke-width="2.5" stroke-dasharray="12 9"/>
+  <rect x="90" y="574" width="327" height="34" rx="17" fill="#e7edf3" stroke="#bac6d2"/>
+  <text x="254" y="597" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#42546b">SPECIFIED — NOT IMPLEMENTED</text>
+  <text x="442" y="597" class="small">Planned pulse / one tick</text>
+  <g>
+    <rect x="95" y="639" width="254" height="119" rx="12" fill="#fff" stroke="#c4ced9"/>
+    <text x="117" y="678" class="boxhead">1 · Time &amp;</text>
+    <text x="117" y="706" class="boxhead">context</text>
+    <text x="117" y="737" class="body">Advance local state</text>
+    <rect x="383" y="639" width="254" height="119" rx="12" fill="#fff" stroke="#c4ced9"/>
+    <text x="405" y="678" class="boxhead">2 · Memory &amp;</text>
+    <text x="405" y="706" class="boxhead">graph activation</text>
+    <text x="405" y="737" class="body">Adaptive associations</text>
+    <rect x="671" y="639" width="254" height="119" rx="12" fill="#fff" stroke="#c4ced9"/>
+    <text x="693" y="678" class="boxhead">3 · Evidence</text>
+    <text x="693" y="706" class="boxhead">gate</text>
+    <text x="693" y="737" class="body">Keep uncertainty</text>
+    <rect x="959" y="639" width="254" height="119" rx="12" fill="#fff" stroke="#c4ced9"/>
+    <text x="981" y="678" class="boxhead">4 · Select &amp;</text>
+    <text x="981" y="706" class="boxhead">regulate</text>
+    <text x="981" y="737" class="body">Route if required</text>
+    <rect x="1247" y="639" width="254" height="119" rx="12" fill="#fff" stroke="#c4ced9"/>
+    <text x="1269" y="678" class="boxhead">5 · Integrate &amp;</text>
+    <text x="1269" y="706" class="boxhead">snapshot</text>
+    <text x="1269" y="737" class="body">Persist next state</text>
+    <path d="M349 699 H375" class="flow"/>
+    <path d="M637 699 H663" class="flow"/>
+    <path d="M925 699 H951" class="flow"/>
+    <path d="M1213 699 H1239" class="flow"/>
+  </g>
+  <path d="M1374 759 V796 H224 V760" stroke="#8595a9" stroke-width="2.5" fill="none" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+  <rect x="533" y="775" width="522" height="39" rx="19" fill="#fafbfc"/>
+  <text x="794" y="800" text-anchor="middle" class="small">Next tick uses the updated state</text>
+  <rect x="356" y="838" width="888" height="59" rx="12" fill="#eff3f7" stroke="#cbd5e1"/>
+  <text x="800" y="865" text-anchor="middle" class="boxhead" font-size="21">Optional model / tool / peer call</text>
+  <text x="800" y="889" text-anchor="middle" class="small">Only if selected; a tick does not require inference</text>
+  <path d="M1084 758 V827" stroke="#64748b" stroke-width="2" fill="none" stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+  <text x="69" y="970" class="small">Solid boundary: available code</text>
+  <line x1="450" y1="963" x2="518" y2="963" stroke="#9aa9ba" stroke-width="3" stroke-dasharray="12 9"/>
+  <text x="533" y="970" class="small">Dashed boundary: architecture only</text>
+  <text x="1530" y="970" text-anchor="end" class="small">Graph activation is not evidence of truth.</text>
+</svg>
